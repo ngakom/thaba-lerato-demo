@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+/* Thaba Lerato palette: deep bush green, warm sand and clay, with a touch of sunset gold. */
+:root {
+  --bush: #1e2a22;
+  --bush-soft: #2b3a30;
+  --sand: #f6f0e6;
+  --sand-deep: #ece2d1;
+  --line: #e4d9c6;
+  --muted: #6c675e;
+  --clay: #b8673a;
+  --clay-deep: #9e5530;
+  --gold: #d9a441;
+  --moss: #5d6b4a;
+}
+
+@theme inline {
+  --color-bush: var(--bush);
+  --color-bush-soft: var(--bush-soft);
+  --color-sand: var(--sand);
+  --color-sand-deep: var(--sand-deep);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-clay: var(--clay);
+  --color-clay-deep: var(--clay-deep);
+  --color-gold: var(--gold);
+  --color-moss: var(--moss);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-cormorant);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  color-scheme: only light;
+  /* Cormorant's default old-style figures look odd in prices and stats. */
+  font-variant-numeric: lining-nums;
+}
+
+body {
+  background: #fffdf9;
+  color: var(--bush);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+@layer components {
+  .display {
+    @apply font-display font-semibold leading-[1.02] tracking-tight;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.28em] text-clay;
+  }
+  .heading {
+    @apply font-display text-4xl font-semibold leading-tight tracking-tight sm:text-5xl;
+  }
+  .btn-clay {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-clay px-7 py-3.5 text-sm font-semibold tracking-wide text-white shadow-[0_12px_30px_rgba(184,103,58,0.3)] transition-all hover:-translate-y-0.5 hover:bg-clay-deep disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-bush {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-bush px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition-all hover:-translate-y-0.5 hover:bg-bush-soft;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/60 px-7 py-3.5 text-sm font-semibold tracking-wide text-white backdrop-blur-sm transition-colors hover:bg-white hover:text-bush;
+  }
+  .btn-line {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-bush/25 px-6 py-3 text-sm font-semibold text-bush transition-colors hover:border-bush hover:bg-bush hover:text-white;
+  }
+  .field {
+    @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-bush outline-none transition-colors placeholder:text-muted/60 focus:border-clay;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-white;
+  }
+}
+
+.hero-zoom {
+  animation: hero-zoom 18s ease-out both;
+}
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.pulse-soft {
+  animation: pulse-soft 1.2s ease-in-out infinite;
+}
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Scroll reveal: hidden only once JS has marked <html class="js">, so content never stays hidden without it. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
+}
+.js [data-reveal].in {
+  opacity: 1;
+  transform: none;
+}
+.js [data-reveal-group] > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
+}
+.js [data-reveal-group].in > * {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal-group] > :nth-child(2) {
+  --d: 90ms;
+}
+[data-reveal-group] > :nth-child(3) {
+  --d: 180ms;
+}
+[data-reveal-group] > :nth-child(4) {
+  --d: 270ms;
+}
+[data-reveal-group] > :nth-child(5) {
+  --d: 360ms;
+}
+[data-reveal-group] > :nth-child(6) {
+  --d: 450ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .hero-zoom {
+    animation: none;
+  }
+  .js [data-reveal],
+  .js [data-reveal-group] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
